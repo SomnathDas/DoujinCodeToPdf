@@ -69,6 +69,9 @@ async function getDoujin(id) {
 
   try {
 
+  	console.log(`Welcome To 『 𝓓𝓸𝓾𝓳𝓲𝓷 𝓒𝓸𝓭𝓮 𝓣𝓸 𝓟𝓓𝓕 』|『 同人コードをPDFに 』
+  	Processing and Converting your Code, Please Wait, senpai uwu`)
+
     if(nhentai.exists(id)) { // Checks if Doujin exists
         const dojin = await nhentai.getDoujin(id);
         pages_array = dojin.pages;
