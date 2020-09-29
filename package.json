@@ -1,12 +1,16 @@
 {
-  "name": "Doujin_Code_To_PDF",
-  "version": "1.0.0",
-  "description": "A Javascript Program to convert doujinshi code to pdf",
-  "main": "doujin_code_to_pdf.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
+  "name": "doujin-code-to-pdf",
+  "version": "0.0.2",
+  "description": "A Javascript based program to convert doujin code to PDF file",
   "author": "Somnath Das",
-  "license": "ISC"
+  "license": "",
+  "homepage": "https://github.com/SomnathDas/DoujinCodeToPdf#README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SomnathDas/DoujinCodeToPdf.git"
+  },
+  "engines": {
+    "npm": ">=6.14.4",
+    "node": ">=10.19.0"
+  }
 }
