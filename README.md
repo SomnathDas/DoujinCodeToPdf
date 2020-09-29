@@ -15,6 +15,7 @@
 </p>
 
 > A Javascript based program to convert doujin code to PDF file
+> Directly convert nHentai/Doujin Code into PDFs & Images
 
 ### 🏠 [Homepage](https://github.com/SomnathDas/DoujinCodeToPdf#README.md)
 
@@ -29,6 +30,7 @@
 
 * Twitter: [@aksd3247](https://twitter.com/aksd3247)
 * Github: [@SomnathDas](https://github.com/SomnathDas)
+* Instagram: [@samurai3247](https://www.instagram.com/samurai3247/)
 
 ## 🤝 Contributing
 
@@ -37,6 +39,3 @@ Contributions, issues and feature requests are welcome!<br />Feel free to check 
 ## Show your support
 
 Give a ⭐️ if this project helped you!
-
-***
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
