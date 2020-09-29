@@ -1,0 +1,12 @@
+{
+  "name": "Doujin_Code_To_PDF",
+  "version": "1.0.0",
+  "description": "A Javascript Program to convert doujinshi code to pdf",
+  "main": "doujin_code_to_pdf.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Somnath Das",
+  "license": "ISC"
+}
