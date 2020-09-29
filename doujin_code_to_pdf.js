@@ -1,25 +1,21 @@
 // Dependencies and stuffs
-const nhentai = require('nhentai-js')
+const nhentai = require('nhentai-js');
+let fs = require('fs');
+let request = require('request');
 const imgToPDF = require('image-to-pdf');
-let fs = require('fs'),
-    request = require('request');
 
-// Sleep Function [It gives me anxiety xD]
-function sleep(ms) {
-	return new Promise(resolve => setTimeout(resolve, ms));
-}
-
+let pages_array = [];
 
 // Image Downloading Function
 async function download(url, dest) {
 
-    /* Create an empty file where we can save data */
+    // Create an empty file where we can save data 
     const file = fs.createWriteStream(dest);
 
-    /* Using Promises so that we can use the ASYNC AWAIT syntax */
+    // Using Promises so that we can use the ASYNC AWAIT syntax 
     await new Promise((resolve, reject) => {
       request({
-        /* Here you should specify the exact link to the file you are trying to download */
+    // Here you should specify the exact link to the file you are trying to download 
         uri: url,
         gzip: true,
       })
@@ -37,70 +33,95 @@ async function download(url, dest) {
         });
 }
 
+// Ignore the code below
+
+/*fs.mkdir("./Neko_God_Of_Culture", (damn_error) => {
+            if(damn_error){
+              console.log(damn_error);
+            }else{
+              console.log("Created New Directory To Store Images");
+            }
+          });
+*/
+
+/*async function deletion() {
+  for(let m = 0; m < pages_array.length; m++){
+    const damn = await fs.unlink('./image' + m + '.jpg', (err) => {
+      if (err) {
+      throw err;
+      }
+      console.log("images deleted uwu.");
+      });
+    //fs.unlinkSync('./image' + m + '.jpg');
+    //console.log("images deleted uwu.");
+  }
+
+}*/
+
+
+// Ignore the code above
+
+//Engine
 const PDFpages = []; //name of pages will be stored here, later to smash it all together to make PDF
 
-
 // Main Function
-async function getDoujin(id){
+async function getDoujin(id) {
 
-    try{
+  try {
 
-      const val = await nhentai.getDoujin(id)
+    if(nhentai.exists(id)) { // Checks if Doujin exists
+        const dojin = await nhentai.getDoujin(id);
+        pages_array = dojin.pages;
+        //console.log(pages_array);
+        //console.log(dojin);
 
-      let pages_array = val.pages;
-      let each_pages;
-      let namae = val.title;
+        for(let i = 0; i < dojin["pages"].length; i++) {
 
-      for(let i = 0; i < val["pages"].length; i++) {
-
-        pages_array = val.pages;
-        each_pages = val.pages[i];
-    
+      // pages_array directly refers to array of links of the images of the pages.
+      // each_pages refers to iteration of the array of links of the images.
+        pages_array = dojin.pages;
+        each_pages = dojin.pages[i];
+      
         let fName = "image" + i + ".jpg";
         PDFpages.push(fName);
 
-      // Code below this line is to download images from URL :)
-
+      // Asynchronous Function
         (async () => {
-          const data = await download(each_pages, './image' + i + '.jpg');
+      // Code below this line is to download images from URL :)
+          const data = await download(each_pages, 'image' + i + '.jpg');
           console.log(`Done uwu, Page - ${i} but yamette kudasai senpai`); 
+      // Code below this line is to pack images together in a pdf file :)
+
+      /* I think conversion of image ot pdf here, in a loop is a little bit good 
+      because it will update images into PDF repeatedly and because of that it will help
+      to preserve the updated image into PDF incase of any network or server related error though
+      it will be useless but look man, gonna be honest with ya, i'm pointless for this crap right now
+      so enjoy and don't simp */
+
+          const conversion = await imgToPDF(PDFpages, 'A4').pipe(fs.createWriteStream('doujinuwu.pdf'));
+          console.log(`PDF goes brrr, UPDATING/WRITING...`);
+
+          //const sayonara = await deletion();
 
         })();
 
-      }
+        }
 
-        await sleep(80000); //[ms], Please Adjust this according to your internet speed xox
-
-      // Code below this line is to pack images together in a pdf file :)
-       (async () => {
-                const data = await imgToPDF(PDFpages, 'A4').pipe(fs.createWriteStream('doujinuwu.pdf'));
-                console.log(`PDF goes brrr`); 
-
-                // Code below will delete the images after making PDF
-                for(let m = 0; m < pages_array.length; m++){
-                  fs.unlink('./image' + m + '.jpg', (err) => {
-                  if (err) {
-                  throw err;
-                  }
-                  console.log("images deleted uwu.");
-                  });
-                  //fs.unlinkSync('./image' + m + '.jpg'); // Synchronous Way Of Deleting Files 
-                }
-            })();
-
-
-        //imgToPDF(PDFpages, 'A4').pipe(fs.createWriteStream('doujinuwu.pdf'));
-       
-       
-    }catch(err){
-        console.error(err);
-
+    } else {
+      console.log("Nuke Code doesn't exists, bakka shi nee ^o^")
     }
-        
+    
+  }
+  catch(err) {
+    console.log(err);
+  }
+  finally {
+    //console.log("Completed")         
+  }
+
 }
 
 // Created by Somnath Das :) @samurai3247 [Instagram]
-// Enjoy
+// Enjoy :) my fellow man/woman of culture 
 
 getDoujin('251004'); //Not so uwu thingy
-
