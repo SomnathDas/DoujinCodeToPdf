@@ -1,10 +1,11 @@
 // Dependencies and stuffs
 const nhentai = require('nhentai-js');
-let fs = require('fs');
-let request = require('request');
+const fs = require('fs');
+const request = require('request');
 const imgToPDF = require('image-to-pdf');
+const https = require('https');
 
-let pages_array = [];
+let pages_array = []; // Array of links containing image of each page
 
 // Image Downloading Function
 async function download(url, dest) {
@@ -44,33 +45,33 @@ async function download(url, dest) {
           });
 */
 
-/*async function deletion() {
-  for(let m = 0; m < pages_array.length; m++){
-    const damn = await fs.unlink('./image' + m + '.jpg', (err) => {
-      if (err) {
-      throw err;
-      }
-      console.log("images deleted uwu.");
-      });
-    //fs.unlinkSync('./image' + m + '.jpg');
-    //console.log("images deleted uwu.");
-  }
-
-}*/
-
-
 // Ignore the code above
 
+// deletion() will delete files after downloading images and converting them into PDF
+function deletion(x, y) {
+	if(x == y.length) {
+		for(let s = 0; s < pages_array.length; s++) {
+        	const k = fs.unlinkSync('./image' + s + '.jpg');
+    		//console.log("images deleted uwu.");
+    	}
+	}
+}
+
+
+
 //Engine
+
 const PDFpages = []; //name of pages will be stored here, later to smash it all together to make PDF
+let download_count = 0; // to count the number of page downloaded 
 
 // Main Function
 async function getDoujin(id) {
 
   try {
 
-  	console.log(`Welcome To 『 𝓓𝓸𝓾𝓳𝓲𝓷 𝓒𝓸𝓭𝓮 𝓣𝓸 𝓟𝓓𝓕 』|『 同人コードをPDFに 』
-  	Processing and Converting your Code, Please Wait, senpai uwu`)
+    console.log(`Welcome To 『 𝓓𝓸𝓾𝓳𝓲𝓷 𝓒𝓸𝓭𝓮 𝓣𝓸 𝓟𝓓𝓕 』|『 同人コードをPDFに 』
+    Processing and Converting your Code, Please Wait, senpai uwu
+ Also, make sure to have FAST & STABLE INTERNET CONNECTION`)
 
     if(nhentai.exists(id)) { // Checks if Doujin exists
         const dojin = await nhentai.getDoujin(id);
@@ -82,6 +83,7 @@ async function getDoujin(id) {
 
       // pages_array directly refers to array of links of the images of the pages.
       // each_pages refers to iteration of the array of links of the images.
+
         pages_array = dojin.pages;
         each_pages = dojin.pages[i];
       
@@ -89,29 +91,36 @@ async function getDoujin(id) {
         PDFpages.push(fName);
 
       // Asynchronous Function
+
         (async () => {
+
       // Code below this line is to download images from URL :)
-          const data = await download(each_pages, 'image' + i + '.jpg');
-          console.log(`Done uwu, Page - ${i} but yamette kudasai senpai`); 
+
+          	const data = await download(each_pages, 'image' + i + '.jpg');
+          	//console.log(`Done uwu, Page - ${i} but yamette kudasai senpai`); 
+
       // Code below this line is to pack images together in a pdf file :)
 
-      /* I think conversion of image ot pdf here, in a loop is a little bit good 
+      /* I think conversion of image of pdf here, in a loop is a little bit good 
       because it will update images into PDF repeatedly and because of that it will help
       to preserve the updated image into PDF incase of any network or server related error though
       it will be useless but look man, gonna be honest with ya, i'm pointless for this crap right now
       so enjoy and don't simp */
 
-          const conversion = await imgToPDF(PDFpages, 'A4').pipe(fs.createWriteStream('doujinuwu.pdf'));
-          console.log(`PDF goes brrr, UPDATING/WRITING...`);
+          	const conversion = await imgToPDF(PDFpages, 'A4').pipe(fs.createWriteStream('doujinuwu.pdf'));
+          	//console.log(`PDF goes brrr, UPDATING/WRITING...`);
+          	download_count++;
 
-          //const sayonara = await deletion();
+          	console.log(`Downloaded: ${download_count} out of ${pages_array.length}`);
+
+          	const meow = await deletion(download_count, pages_array);
 
         })();
 
         }
 
     } else {
-      console.log("Nuke Code doesn't exists, bakka shi nee ^o^")
+      console.log("Nuke Code doesn't exists, ughhh bakka shi nee (OwO)")
     }
     
   }
@@ -119,7 +128,8 @@ async function getDoujin(id) {
     console.log(err);
   }
   finally {
-    //console.log("Completed")         
+    //console.log("Completed")
+
   }
 
 }
@@ -127,4 +137,4 @@ async function getDoujin(id) {
 // Created by Somnath Das :) @samurai3247 [Instagram]
 // Enjoy :) my fellow man/woman of culture 
 
-getDoujin('251004'); //Not so uwu thingy
+getDoujin('251004'); //Not so uwu thingy, 16 pages = 330751 9 pages = 251004 301 pages = 323651
