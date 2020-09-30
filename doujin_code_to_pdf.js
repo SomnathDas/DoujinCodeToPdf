@@ -3,7 +3,6 @@ const nhentai = require('nhentai-js');
 const fs = require('fs');
 const request = require('request');
 const imgToPDF = require('image-to-pdf');
-const https = require('https');
 
 let pages_array = []; // Array of links containing image of each page
 
