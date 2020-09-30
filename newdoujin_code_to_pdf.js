@@ -35,7 +35,11 @@ async function getDoujin(id) {
       console.error(err)
     }
   } catch (error) {
-    console.log(error)
+    if (error.status == 404) {
+      console.log("Nuke Code doesn't exists, ughhh bakka shi nee (OwO)")
+    } else {
+      console.log(error)
+    }
   }
 }
 
