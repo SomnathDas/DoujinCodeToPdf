@@ -1,0 +1,16 @@
+{
+  "name": "doujin-code-to-pdf",
+  "version": "0.1.0",
+  "description": "A Javascript based program to convert doujin code to PDF file",
+  "author": "Somnath Das",
+  "license": "",
+  "homepage": "https://github.com/SomnathDas/DoujinCodeToPdf#README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SomnathDas/DoujinCodeToPdf.git"
+  },
+  "engines": {
+    "npm": ">=6.14.4",
+    "node": ">=10.19.0"
+  }
+}
