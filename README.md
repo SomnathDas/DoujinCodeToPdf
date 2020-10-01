@@ -19,6 +19,8 @@
 
 ### 🏠 [Homepage](https://github.com/SomnathDas/DoujinCodeToPdf#README.md)
 
+![](https://media.giphy.com/media/R08IFi77Y2X3ocmwzl/giphy.gif)
+
 ## Prerequisites
 
 - npm >=6.14.4
