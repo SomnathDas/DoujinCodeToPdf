@@ -4,6 +4,7 @@ let fs = require('fs');
 let request = require('request');
 const imgToPDF = require('image-to-pdf');
 const path = require('path');
+const doujinid = '251004' //change the code here
 // Engine
 const PDFpages = []; //name of pages will be stored here, later to smash it all together to make PDF
 const directory = 'temp_images'; // name of the directory where temp_image files will be stored to make PDF
@@ -69,5 +70,7 @@ async function getDoujin(id) {
 }
 // Created by Somnath Das :) @samurai3247 [Instagram]
 // Enjoy :) my fellow man/woman of culture 
-getDoujin('251004'); //Not so uwu thingy, 
+getDoujin(doujinid); //Not so uwu thingy, 
 //(dunno, never read) --> 16 pages = 330751 9 pages = 251004 (wholesome) --> 301 pages = 323651
+
+exports.getdoujin = getDoujin()
