@@ -5,7 +5,7 @@ let request = require('request');
 const imgToPDF = require('image-to-pdf');
 const path = require('path');
 
-//Engine
+// Engine
 const PDFpages = []; //name of pages will be stored here, later to smash it all together to make PDF
 const directory = 'temp_images'; // name of the directory where temp_image files will be stored to make PDF
 let pages_array = [];
