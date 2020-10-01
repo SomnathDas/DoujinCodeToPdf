@@ -24,6 +24,13 @@
 - npm >=6.14.4
 - node >=10.19.0
 
+## Instructions to run the program
+
+1. Download or pull this repo.
+2. Put the script named "doujin_code_to_pdf.js" into a folder (if it isn't)
+3. Open CMD or Powershell or Terminal inside the folder (in other words, make sure you are using terminal in same directory as the script)
+4. type node doujin_code_to_pdf.js and press Enter
+
 ## Author
 
 👤 **Somnath Das**
