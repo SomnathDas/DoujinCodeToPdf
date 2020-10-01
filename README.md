@@ -25,6 +25,7 @@
 - node >=10.19.0
 
 ## Instructions to run the program
+### Make sure to install required modules such as nhentai-js & image-to-pdf
 
 1. Download or pull this repo.
 2. Put the script named "doujin_code_to_pdf.js" into a folder (if it isn't)
