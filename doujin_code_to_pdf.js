@@ -1,134 +1,89 @@
 // Dependencies and stuffs
 const nhentai = require('nhentai-js');
-const fs = require('fs');
-const request = require('request');
+let fs = require('fs');
+let request = require('request');
 const imgToPDF = require('image-to-pdf');
-
-let pages_array = []; // Array of links containing image of each page
-
-// Image Downloading Function
-async function download(url, dest) {
-
-    // Create an empty file where we can save data 
-    const file = fs.createWriteStream(dest);
-
-    // Using Promises so that we can use the ASYNC AWAIT syntax 
-    await new Promise((resolve, reject) => {
-      request({
-    // Here you should specify the exact link to the file you are trying to download 
-        uri: url,
-        gzip: true,
-      })
-          .pipe(file)
-          .on('finish', async () => {
-            //console.log(`Downloading Finished!.`);
-            resolve();
-          })
-          .on('error', (error) => {
-            reject(error);
-          });
-    })
-        .catch((error) => {
-          console.log(`Something happened: ${error}`);
-        });
-}
-
-// Ignore the code below
-
-/*fs.mkdir("./Neko_God_Of_Culture", (damn_error) => {
-            if(damn_error){
-              console.log(damn_error);
-            }else{
-              console.log("Created New Directory To Store Images");
-            }
-          });
-*/
-
-// Ignore the code above
-
-// deletion() will delete files after downloading images and converting them into PDF
-function deletion(x, y) {
-	if(x == y.length) {
-		for(let s = 0; s < pages_array.length; s++) {
-        	const k = fs.unlinkSync('./image' + s + '.jpg');
-    		//console.log("images deleted uwu.");
-    	}
-	}
-}
-
-
+const path = require('path');
 
 //Engine
-
 const PDFpages = []; //name of pages will be stored here, later to smash it all together to make PDF
-let download_count = 0; // to count the number of page downloaded 
+const directory = 'temp_images'; // name of the directory where temp_image files will be stored to make PDF
+let pages_array = [];
 
 // Main Function
 async function getDoujin(id) {
 
   try {
 
-    console.log(`Welcome To 『 𝓓𝓸𝓾𝓳𝓲𝓷 𝓒𝓸𝓭𝓮 𝓣𝓸 𝓟𝓓𝓕 』|『 同人コードをPDFに 』
-    Processing and Converting your Code, Please Wait, senpai uwu
- Also, make sure to have FAST & STABLE INTERNET CONNECTION`)
+    console.log('\x1b[41m%s\x1b[0m', 
+      `Welcome To 『 𝓓𝓸𝓾𝓳𝓲𝓷 𝓒𝓸𝓭𝓮 𝓣𝓸 𝓟𝓓𝓕 』|『 同人コードをPDFに 』`);
+    console.log('\x1b[41m%s\x1b[0m', 
+      `        『 Created By Somnath Das, @samurai3247 [Instagram] 』`);
+    console.log('\x1b[44m%s\x1b[0m', 
+      `Processing and Converting your Code, Please Wait, senpai uwu`);
+
+    // To Create Directory named "temp_images"
+    fs.mkdir("temp_images", (damn_error) => {
+            if(damn_error) {
+              if(damn_error.hasOwnProperty('errno') && damn_error['errno'] == '-17') {
+                console.log("Directory already exists");
+              } else {
+              console.log(damn_error);
+              }
+            } else if(!damn_error){
+              console.log("Created New Directory To Store Images");
+            }
+          });
 
     if(nhentai.exists(id)) { // Checks if Doujin exists
+
         const dojin = await nhentai.getDoujin(id);
         pages_array = dojin.pages;
-        //console.log(pages_array);
-        //console.log(dojin);
+        let title = dojin.title;
+        let download_count = 0;
 
-        for(let i = 0; i < dojin["pages"].length; i++) {
-
-      // pages_array directly refers to array of links of the images of the pages.
-      // each_pages refers to iteration of the array of links of the images.
-
+      // pages_array directly refers to an array of links of the images of the pages.
         pages_array = dojin.pages;
-        each_pages = dojin.pages[i];
-      
-        let fName = "image" + i + ".jpg";
-        PDFpages.push(fName);
 
-      // Asynchronous Function
-
-        (async () => {
-
-      // Code below this line is to download images from URL :)
-
-          	const data = await download(each_pages, 'image' + i + '.jpg');
-          	//console.log(`Done uwu, Page - ${i} but yamette kudasai senpai`); 
-
-      // Code below this line is to pack images together in a pdf file :)
-
-      /* I think conversion of image of pdf here, in a loop is a little bit good 
-      because it will update images into PDF repeatedly and because of that it will help
-      to preserve the updated image into PDF incase of any network or server related error though
-      it will be useless but look man, gonna be honest with ya, i'm pointless for this crap right now
-      so enjoy and don't simp */
-
-          	const conversion = await imgToPDF(PDFpages, 'A4').pipe(fs.createWriteStream('doujinuwu.pdf'));
-          	//console.log(`PDF goes brrr, UPDATING/WRITING...`);
-          	download_count++;
-
-          	console.log(`Downloaded: ${download_count} out of ${pages_array.length}`);
-
-          	const meow = await deletion(download_count, pages_array);
-
-        })();
-
+      // To download images from the direct url present in pages_array
+        console.log(`Doujin title: ${title}`);
+        console.log("Downloading...")
+        for (let i = 0; i < pages_array.length; i++) {
+          image_name = 'temp_images/image' + i + '.jpg';
+          await new Promise((resolve) => request(pages_array[i]).pipe(fs.createWriteStream(image_name)).on('finish', resolve))
+          PDFpages.push(image_name);
+          download_count++;
+          console.log(`Downloading: ${download_count} out of ${pages_array.length}`)
         }
 
-    } else {
-      console.log("Nuke Code doesn't exists, ughhh bakka shi nee (OwO)")
+    // To convert images into pdf file using an API named "image-to-pdf"
+        imgToPDF(PDFpages, 'A4').pipe(fs.createWriteStream(title + '.pdf'));
+
+    // To Read the temp_images directory, collect the name of files in there and delete image files after using them
+        try {
+          fs.readdir(directory, (err, files) => {
+          if (err) throw err;
+
+          for (const file of files) {
+            fs.unlink(path.join(directory, file), err => {
+            if (err) throw err;
+            });
+          }
+          });
+
+        }catch(eRR) {
+          console.log(eRR);
+        }
+
+    } else { // Responds if doujin doesn't exists
+      console.log("Nuke Code doesn't exists, bakka shi nee *^*")
     }
     
-  }
-  catch(err) {
+  }catch(err) {
     console.log(err);
-  }
-  finally {
-    //console.log("Completed")
 
+  }finally {
+    console.log("Completed");        
   }
 
 }
@@ -136,4 +91,6 @@ async function getDoujin(id) {
 // Created by Somnath Das :) @samurai3247 [Instagram]
 // Enjoy :) my fellow man/woman of culture 
 
-getDoujin('251004'); //Not so uwu thingy, 16 pages = 330751 9 pages = 251004 301 pages = 323651
+
+getDoujin('251004'); //Not so uwu thingy, 
+//(dunno, never read) --> 16 pages = 330751 9 pages = 251004 (wholesome) --> 301 pages = 323651
