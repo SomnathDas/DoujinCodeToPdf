@@ -5,12 +5,18 @@
   "author": "Somnath Das",
   "license": "",
   "homepage": "https://github.com/SomnathDas/DoujinCodeToPdf#README.md",
+  "scripts": {
+    "start": "node index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SomnathDas/DoujinCodeToPdf.git"
   },
   "engines": {
     "npm": ">=6.14.4",
-    "node": ">=10.19.0"
+    "node": ">=10.19.0",
+    "nhentai-js": "^4.0.0",
+    "request": "^2.88.2",
+    "image-to-pdf": "^1.0.0"
   }
 }
