@@ -25,6 +25,9 @@
   "main": "index.js",
   "keywords": [],
   "dependencies": {
+    "express": "^4.17.1",
+    "image-to-pdf": "^1.0.0",
+    "nhentai-js": "^4.0.0",
     "prompt-sync": "^4.2.0",
     "request": "^2.88.2"
   }
