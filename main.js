@@ -10,12 +10,10 @@ const express = require('express');
 // const { title } = require('process');
 // const doujin_id = Code
 const app = express();
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 443
 
 
-
-
-app.get('/',async (req,res)=>{
+app.get('/download',async (req,res)=>{
 // let dirr = path.join(__dirname)
 const id = req.query.code
     const PDFpages = []; //name of pages will be stored here, later to smash it all together to make PDF
@@ -31,8 +29,8 @@ const id = req.query.code
       console.log('\x1b[44m%s\x1b[0m', 
         `Processing and Converting your Code, Please Wait, senpai uwu`);
   
-      // To Create Directory named "temp_images"
-      fs.mkdir("temp_images", (damn_error) => {
+      // To Create Directory na"temp_images"ges"
+      fs.mkdir(`${Math.random().toString(36)}`, (damn_error) => {
               if(damn_error) {
                 if(damn_error.hasOwnProperty('errno') && damn_error['errno'] == '-17') {
                   console.log("Directory already exists");
@@ -58,7 +56,7 @@ const id = req.query.code
           console.log(`Doujin title: ${title}`);
           console.log("Downloading...")
           for (let i = 0; i < pages_array.length; i++) {
-            image_name = 'temp_images/image' + i + '.jpg';
+            image_name = `${Math.random().toString(36)}/image` + i + '.jpg';
             await new Promise((resolve) => request(pages_array[i]).pipe(fs.createWriteStream(image_name)).on('finish', resolve))
             PDFpages.push(image_name);
             download_count++;
@@ -97,7 +95,9 @@ const id = req.query.code
       console.log(err);
   
     }finally {
-      res.send(` finised`)
+      res.send(`<h1> finised</h1><br><br><form action="/pdf">
+    <input type="text" id="/pdf?id" name="id"><br><br>
+    <button type="submit">Download</button>`)
 
       console.log("Completed");        
     }
@@ -113,7 +113,9 @@ let id = req.query.id
 res.sendFile(data)
 })
 
-
+app.get('/',(req,res)=>{
+  res.send('<h1>welcome to the darkness enter your code to download it on server </h1><br><h4>wait until it says finised okie umu </h4><form action="/download"> <input type="text" id="text" name="code"><br><br> <button type="submit">Submit</button></form>')
+})
 
 
 
