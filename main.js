@@ -30,7 +30,7 @@ const id = req.query.code
         `Processing and Converting your Code, Please Wait, senpai uwu`);
   
       // To Create Directory na"temp_images"ges"
-      fs.mkdir(`${Math.random().toString(36)}`, (damn_error) => {
+      fs.mkdir(`${id}`, (damn_error) => {
               if(damn_error) {
                 if(damn_error.hasOwnProperty('errno') && damn_error['errno'] == '-17') {
                   console.log("Directory already exists");
@@ -56,7 +56,7 @@ const id = req.query.code
           console.log(`Doujin title: ${title}`);
           console.log("Downloading...")
           for (let i = 0; i < pages_array.length; i++) {
-            image_name = `${Math.random().toString(36)}/image` + i + '.jpg';
+            image_name = `${id}/image` + i + '.jpg';
             await new Promise((resolve) => request(pages_array[i]).pipe(fs.createWriteStream(image_name)).on('finish', resolve))
             PDFpages.push(image_name);
             download_count++;
