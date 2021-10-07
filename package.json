@@ -6,7 +6,7 @@
   "license": "ISC",
   "homepage": "https://github.com/SomnathDas/DoujinCodeToPdf#README.md",
   "scripts": {
-    "start": "node index.js"
+    "start": "node main.js"
   },
   "repository": {
     "type": "git",
