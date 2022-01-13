@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "description": "A Javascript based program to convert doujin code to PDF file",
   "author": "Somnath Das",
-  "license": "",
+  "license": "ISC",
   "homepage": "https://github.com/SomnathDas/DoujinCodeToPdf#README.md",
   "scripts": {
-    "start": "node index.js"
+    "start": "node main.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,17 @@
     "nhentai-js": "^4.0.0",
     "request": "^2.88.2",
     "image-to-pdf": "^1.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/SomnathDas/DoujinCodeToPdf/issues"
+  },
+  "main": "index.js",
+  "keywords": [],
+  "dependencies": {
+    "express": "^4.17.1",
+    "image-to-pdf": "^1.0.0",
+    "nhentai-js": "^4.0.0",
+    "prompt-sync": "^4.2.0",
+    "request": "^2.88.2"
   }
 }

@@ -4,7 +4,8 @@ let fs = require('fs');
 let request = require('request');
 const imgToPDF = require('image-to-pdf');
 const path = require('path');
-const doujin_id = '251004';
+const prompt = require('prompt-sync')();
+const doujin_id = prompt('Write your Nuke code UwU : ') //         '251004';
 
 // Main Function
 async function getDoujin(id) {
@@ -28,7 +29,7 @@ async function getDoujin(id) {
               if(damn_error.hasOwnProperty('errno') && damn_error['errno'] == '-17') {
                 console.log("Directory already exists");
               } else {
-              console.log(damn_error);
+              console.log("Directory Exists overwriting.....");
               }
             } else if(!damn_error){
               console.log("Created New Directory To Store Images");
